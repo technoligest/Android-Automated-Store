@@ -11,8 +11,7 @@ public class JSONTEST {
 	public static void main(String[]args){
 		try{
 		JSONParser parser = new JSONParser();
-		System.out.println(readUrl("http://ooper.space/jam/index.php?type=refresh&pass=wordpass"));
-	      String s = readUrl("http://ooper.space/jam/index.php?type=refresh&pass=wordpass");
+	      String s = readUrl("http://ooper.space/VoltaHackathon2016/api.php?type=refresh&pass=wordpass");
 			
 	      try{
 	         Object obj = parser.parse(s);
