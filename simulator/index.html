@@ -15,9 +15,17 @@ var itemIndex = 0
 
 /* Get loctaion, id and amount */
 function updateInformation() {
+	updateInfo(function(ide, amounte){
+		$.get(
+				"http://ooper.space/VoltaHackathon2016/api.php",
+				{type : 'move', pass : 'wordpass', id : ide, amount : amounte},
+				function(data) {
+				console.log(data[0]['location']);
+			});
+	})
+}
 
-		var ide
-		var amounte
+updateInfo(completion) {
 	$.get(
 			"http://ooper.space/VoltaHackathon2016/api.php",
 			{type : 'refresh', pass : 'wordpass', base : 'q'},
@@ -27,15 +35,9 @@ function updateInformation() {
 			amount = data[0]['amount'];
 			locs.push(loc)
 			beginQueue()
+			completion(id, amount)
 		});
 
-	/* After Object has been moved */
-	$.get(
-			"http://ooper.space/VoltaHackathon2016/api.php",
-			{type : 'move', pass : 'wordpass', id : ide, amount : amounte},
-			function(data) {
-			console.log(data[0]['location']);
-		});
 }
 
 
