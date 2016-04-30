@@ -16,6 +16,8 @@ var itemIndex = 0
 /* Get loctaion, id and amount */
 function updateInformation() {
 	updateInfo(function(ide, amounte){
+		console.log(ide+ "is the ID")
+		console.log(amounte+ "is the amount")
 		$.get(
 				"http://ooper.space/VoltaHackathon2016/api.php",
 				{type : 'move', pass : 'wordpass', id : ide, amount : amounte},
