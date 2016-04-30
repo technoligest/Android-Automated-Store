@@ -15,13 +15,16 @@ var itemIndex = 0
 
 /* Get loctaion, id and amount */
 function updateInformation() {
+
+		var id
+		var amount
 	$.get(
 			"http://ooper.space/VoltaHackathon2016/api.php",
 			{type : 'refresh', pass : 'wordpass', base : 'q'},
 			function(data) {
 			var loc = data[0]['location'];
-			var id = data[0]['stockid'];
-			var amount = data[0]['amount'];
+			id = data[0]['stockid'];
+			amount = data[0]['amount'];
 			locs.push(loc)
 			beginQueue()
 		});
