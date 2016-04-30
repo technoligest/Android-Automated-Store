@@ -33,8 +33,9 @@ function updateInfo() {
 				var id = data[i]['stockid'];
 				var amount = data[i]['amount'];
 				locs.push(loc)
-				updateInformation(id, amount)
-				console.log("Id is "+ id)
+				setTimeout(function() {
+					updateInformation(id, amount)
+				}, 1000)
 			}
 			beginQueue()
 		});
