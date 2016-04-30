@@ -28,7 +28,7 @@ function updateInfo() {
 			"http://ooper.space/VoltaHackathon2016/api.php",
 			{type : 'refresh', pass : 'wordpass', base : 'q'},
 			function(data) {
-			for (var i = 0; i <= data.length; i++) {
+			for (var i = 0; i < data.length; i++) {
 				var loc = data[i]['location'];
 				id = data[i]['stockid'];
 				amount = data[i]['amount'];
