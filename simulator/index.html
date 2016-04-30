@@ -11,16 +11,27 @@ var locs = ["0012", "0112", "0200", "0512"]
 var robotsInactive = []; // Robots ready to work
 var robotsActive = []; // Robots already working
 var itemIndex = 0
+
+/* Get loctaion, id and amount */
 $.get(
 		"http://ooper.space/VoltaHackathon2016/api.php",
 		{type : 'refresh', pass : 'wordpass', base : 'q'},
 		function(data) {
-	/* parse the json here */	
-		obj = JSON.parse(data);
-		console.log(obj.count);
-		console.log('page content: ' + data);
+		var location = data[0]['location'];
+		var id = data[0]['stockid'];
+		var amount = data[0]['amount'];
 		}
      );
+
+/* After Object has been moved */
+$.get(
+		"http://ooper.space/VoltaHackathon2016/api.php",
+		{type : 'move', pass : 'wordpass', id : id, amount : amount},
+		function(data) {
+		console.log(data[0]['location']);
+		}
+     );
+
 
 $(document).ready(function(){
 
