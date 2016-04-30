@@ -14,30 +14,28 @@ var itemIndex = 0
 
 
 /* Get loctaion, id and amount */
-function updateInformation() {
-	updateInfo(function(ide, amounte){
+function updateInformation(ide, amounte) {
 		$.get(
 				"http://ooper.space/VoltaHackathon2016/api.php",
 				{type : 'move', pass : 'wordpass', id : ide, amount : amounte},
 				function(data) {
 				console.log(data[0]['location']);
 			});
-	})
 }
 
-function updateInfo(completion) {
+function updateInfo() {
 	$.get(
 			"http://ooper.space/VoltaHackathon2016/api.php",
 			{type : 'refresh', pass : 'wordpass', base : 'q'},
 			function(data) {
-			for (var i = 0; i < data.length; i++) {
+			for (var i = 0; i <= data.length; i++) {
 				var loc = data[i]['location'];
 				id = data[i]['stockid'];
 				amount = data[i]['amount'];
 				locs.push(loc)
-				beginQueue()
-				completion(id, amount)
+				updateInformation(id, amount)
 			}
+			beginQueue()
 		});
 
 }
@@ -45,7 +43,7 @@ function updateInfo(completion) {
 
 $(document).ready(function(){
 		var robotCount = 4
-		setInterval(updateInformation, 3000)
+		setInterval(updateInfo, 4000)
 		for (var i = 1; i <= robotCount; i++) {
 			var robot = $("#Robot_" + i)
 			robotsInactive.push(robot)
