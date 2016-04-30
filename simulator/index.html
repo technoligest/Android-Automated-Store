@@ -222,13 +222,13 @@ if (finished) {
 
 function goHome(element){
 
-	if(robotsInactive.length == 0){
+	if(robotsActive.length == 0){
 
 		var moveVertically = element.animate({
 			top: "10px"
 		});
 
-	}if(robotsInactive.length == 1){
+	}if(robotsActive.length == 1){
 
 		var moveHorizontally = element.animate({
 		left: "110px"
@@ -238,13 +238,13 @@ function goHome(element){
 		top: "10px"
 		});
 
-	}if(robotsInactive.length == 2){
+	}if(robotsActive.length == 2){
 
 		var moveVertically = element.animate({
 		top: "75px"
 		});
 
-	}if(robotsInactive.length == 3){
+	}if(robotsActive.length == 3){
 
 		var moveHorizontally = element.animate({
 		left: "110px"
