@@ -130,5 +130,6 @@ class Jam {
 
 }
 /* Stoping Double Sending */
+
 header("Content-Type: application/json");
 
