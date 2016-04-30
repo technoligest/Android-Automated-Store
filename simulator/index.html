@@ -30,10 +30,11 @@ function updateInfo() {
 			function(data) {
 			for (var i = 0; i < data.length; i++) {
 				var loc = data[i]['location'];
-				id = data[i]['stockid'];
-				amount = data[i]['amount'];
+				var id = data[i]['stockid'];
+				var amount = data[i]['amount'];
 				locs.push(loc)
 				updateInformation(id, amount)
+				console.log("Loop through data")
 			}
 			beginQueue()
 		});
@@ -43,7 +44,7 @@ function updateInfo() {
 
 $(document).ready(function(){
 		var robotCount = 4
-		setInterval(updateInfo, 4000)
+		setInterval(updateInfo, 5000)
 		for (var i = 1; i <= robotCount; i++) {
 			var robot = $("#Robot_" + i)
 			robotsInactive.push(robot)
