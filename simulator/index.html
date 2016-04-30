@@ -16,8 +16,8 @@ var itemIndex = 0
 /* Get loctaion, id and amount */
 function updateInformation() {
 
-		var id
-		var amount
+		var ide
+		var amounte
 	$.get(
 			"http://ooper.space/VoltaHackathon2016/api.php",
 			{type : 'refresh', pass : 'wordpass', base : 'q'},
@@ -32,7 +32,7 @@ function updateInformation() {
 	/* After Object has been moved */
 	$.get(
 			"http://ooper.space/VoltaHackathon2016/api.php",
-			{type : 'move', pass : 'wordpass', id : id, amount : amount},
+			{type : 'move', pass : 'wordpass', id : ide, amount : amounte},
 			function(data) {
 			console.log(data[0]['location']);
 		});
