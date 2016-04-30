@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+
+    // Global Variables
+
+    var locs = ["0012", "0112", "0200", "0512"]
+    var robotsInactive = []; // Robots ready to work
+    var robotsActive = []; // Robots already working
+    var itemIndex = 0
+
+    $.ajax({url: "api.php?type=refresh&pass=wordpass&base=q&get_param=value", type: "GET",
+  dataType: 'jsonp'}).done(function( data ) {
+      console.log( "Sample of data:", data );
+    });
+
+    $(document).ready(function(){
+
+      var robotCount = 4
+
+      for (var i = 1; i <= robotCount; i++) {
+        var robot = $("#Robot_" + i)
+          robotsInactive.push(robot)
+        }
+        beginQueue()
+    });
+
+    function activateRobot(robot, hloc, vloc) {
+      robotsActive.push(robot)
+      var index = robotsInactive.indexOf(robot)
+      if (index > -1) {
+        robotsInactive.splice(index, 1)
+      }
+      setActive(robot)
+      setStartPos(robot, false)
+      moveToAisle(robot, hloc, vloc)
+      rotateRobot(robot, hloc, vloc)
+      goBack(robot, hloc, true)
+      rotateReset(robot)
+    }
+
+    function disableRobot(robot) {
+      // Moves robot object from 'robotsActive' array to 'robotsInactive' array
+      robotsInactive.push(robot)
+      var index = robotsActive.indexOf(robot)
+      if (index > -1) {
+        robotsActive.splice(index, 1)
+      }
+      if (locs.length > 0) {
+        locs.splice(0, 1)
+        setTimeout(beginQueue, 1000)
+      }
+    }
+
+    function beginQueue() {
+
+      if (robotsInactive.length > 0) {
+        // Find location to use
+        // Parse the string into integers
+        var hloc = parseInt(locs[0].substring(0, 2))
+        var vloc = parseInt(locs[0].substring(2, 4))
+        activateRobot(robotsInactive[0], hloc, vloc)
+      }
+    }
+
+    // MARK: - Move robot functions
+
+    function setActive(element) {
+      var id = element.attr('id')
+      element.attr("src", "images/robots/" + id + "_Active.png")
+    }
+
+    function setStartPos(element, finished) {
+
+      var horz = element.position().left
+      var vert = element.position().top
+
+      setTimeout(moveVertically, 1500)
+      setTimeout(moveHorizontally, 1500)
+
+      var moveVertically = element.animate({
+        top: "160px"
+      });
+      var moveHorizontally = element.animate({
+        left: "30px"
+      });
+      if (finished) {
+        disableRobot(element)
+      }
+    }
+
+    function moveToAisle(element, hloc, vloc) {
+      var moveVert
+      var moveHorz = (hloc * 150) + 30 // Calculate horizontal position to move to - aisle
+
+      // Calculate distance to move vertically
+      if (vloc > 12) {
+        moveVert = ((vloc - 13) * 20) + 50
+      } else {
+        moveVert = (vloc * 20) + 50
+      }
+
+      var horz = element.position().left
+      var vert = element.position().top
+
+      var moveHorizontally = element.animate({
+        left: moveHorz + "px"
+      });
+      var moveVertically = element.animate({
+        top: "+=" + moveVert + "px"
+      });
+    }
+
+    function rotateRobot(element, hloc, vloc){
+      var deg
+
+      // Calculate direction to rotate robot.
+
+      if (hloc == 0) { deg = -90 }
+      else if (hloc == 5) { deg = 90 }
+      else {
+        if (vloc > 12) { deg = -90 }
+        else { deg = 90 }
+      }
+
+      // Rotate robot and place indicator
+
+      var didIndicate = false
+      element.animate({  textIndent: 0 }, {
+        step: function(now,fx) {
+          if(!didIndicate){
+            fillShelf(element, deg)
+            didIndicate = true
+          }
+          $(this).css('-webkit-transform','rotate('+deg+'deg)');
+        },
+        duration:'slow'
+      },'linear');
+    }
+
+    function fillShelf(element, deg){
+      var index = itemIndex
+      var direction = 0
+      var pos =  element.position()
+
+      if(deg == 90){direction = -39}
+      else{direction = 85}
+
+      var leftPos = pos.left + (direction)
+      var topPos = pos.top  + 23
+      var itemStr = '<img id="item' + itemIndex + '" src="images/item.png" style="position:absolute;top: '+ topPos + 'px;left: '+ leftPos +'px;"/>'
+
+      $('body').append(itemStr)
+      itemIndex ++
+      setTimeout(function(){$('#item' + index).remove()},2500)
+    }
+
+    function goBack(element, hloc, finished) {
+
+      var horz = element.position().left
+      var vert = element.position().top
+
+      if(hloc == 0){
+
+        var moveVertically = element.animate({
+        top: "160px"
+      });
+
+      }else{
+
+
+        var moveVertically = element.animate({
+        top: "490px"
+      });
+
+        var moveHorizontally = element.animate({
+        left: "30px"
+      });
+
+
+        var moveVertically2 = element.animate({
+        top: "160px"
+      });
+
+      }
+      if (finished) {
+        disableRobot(element)
+      }
+    }
+
+    function rotateReset(element){
+      element.animate({  textIndent: 0 }, {
+        step: function(now,fx) {
+          $(this).css('-webkit-transform','rotate('+0+'deg)');
+        },
+        duration:'slow'
+      },'linear');
+    }
+
+    </script>
+   </head>
+   <body>
+     <img src="images/Background.png" id="BG" alt="Background" style="position:relative;">
+     <img src="images/robots/Robot_1.png" id="Robot_1" alt="Robot" style="position:absolute;top:10px;left:30px;">
+     <img src="images/robots/Robot_2.png" id="Robot_2" alt="Robot" style="position:absolute;top:10px;left:110px;">
+     <img src="images/robots/Robot_3.png" id="Robot_3" alt="Robot" style="position:absolute;top:75px;left:30px;">
+     <img src="images/robots/Robot_4.png" id="Robot_4" alt="Robot" style="position:absolute;top:75px;left:110px;">
+     <img src="images/aisle.png" id="aisle_1" alt="Asile" style="position:absolute;top:240px;left:120px;">
+     <img src="images/aisle.png" id="aisle_2" alt="Asile" style="position:absolute;top:240px;left:270px;">
+     <img src="images/aisle.png" id="aisle_2" alt="Asile" style="position:absolute;top:240px;left:420px;">
+     <img src="images/aisle.png" id="aisle_2" alt="Asile" style="position:absolute;top:240px;left:570px;">
+     <img src="images/aisle.png" id="aisle_2" alt="Asile" style="position:absolute;top:240px;left:720px;">
+
+
+   </body>
+</html>
