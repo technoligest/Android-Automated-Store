@@ -16,8 +16,6 @@ var itemIndex = 0
 /* Get loctaion, id and amount */
 function updateInformation() {
 	updateInfo(function(ide, amounte){
-		console.log(ide+ "is the ID")
-		console.log(amounte+ "is the amount")
 		$.get(
 				"http://ooper.space/VoltaHackathon2016/api.php",
 				{type : 'move', pass : 'wordpass', id : ide, amount : amounte},
@@ -32,12 +30,14 @@ function updateInfo(completion) {
 			"http://ooper.space/VoltaHackathon2016/api.php",
 			{type : 'refresh', pass : 'wordpass', base : 'q'},
 			function(data) {
-			var loc = data[0]['location'];
-			id = data[0]['stockid'];
-			amount = data[0]['amount'];
-			locs.push(loc)
-			beginQueue()
-			completion(id, amount)
+			for (var i = 0; i < data.length; i++) {
+				var loc = data[i]['location'];
+				id = data[i]['stockid'];
+				amount = data[i]['amount'];
+				locs.push(loc)
+				beginQueue()
+				completion(id, amount)
+			}
 		});
 
 }
@@ -45,7 +45,7 @@ function updateInfo(completion) {
 
 $(document).ready(function(){
 		var robotCount = 4
-		setInterval(updateInformation, 1000)
+		setInterval(updateInformation, 3000)
 		for (var i = 1; i <= robotCount; i++) {
 			var robot = $("#Robot_" + i)
 			robotsInactive.push(robot)
