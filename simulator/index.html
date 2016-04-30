@@ -30,7 +30,7 @@ function updateInfo() {
 			function(data) {
 			for (var i = 0; i < data.length; i++) {
 				var loc = data[i]['location'];
-				var id = data[i]['stockid'];
+				var id = data[i]['id'];
 				var amount = data[i]['amount'];
 				locs.push(loc)
 				setTimeout(function() {
