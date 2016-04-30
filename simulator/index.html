@@ -7,42 +7,43 @@
 
 // Global Variables
 
-var locs = ["0012", "0112", "0200", "0512"]
+var locs = []
 var robotsInactive = []; // Robots ready to work
 var robotsActive = []; // Robots already working
 var itemIndex = 0
 
-/* Get loctaion, id and amount */
-$.get(
-		"http://ooper.space/VoltaHackathon2016/api.php",
-		{type : 'refresh', pass : 'wordpass', base : 'q'},
-		function(data) {
-		var location = data[0]['location'];
-		var id = data[0]['stockid'];
-		var amount = data[0]['amount'];
-		}
-     );
 
-/* After Object has been moved */
-$.get(
-		"http://ooper.space/VoltaHackathon2016/api.php",
-		{type : 'move', pass : 'wordpass', id : id, amount : amount},
-		function(data) {
-		console.log(data[0]['location']);
-		}
-     );
+/* Get loctaion, id and amount */
+function updateInformation() {
+	$.get(
+			"http://ooper.space/VoltaHackathon2016/api.php",
+			{type : 'refresh', pass : 'wordpass', base : 'q'},
+			function(data) {
+			var loc = data[0]['location'];
+			var id = data[0]['stockid'];
+			var amount = data[0]['amount'];
+			locs.push(loc)
+			beginQueue()
+		});
+
+	/* After Object has been moved */
+	$.get(
+			"http://ooper.space/VoltaHackathon2016/api.php",
+			{type : 'move', pass : 'wordpass', id : id, amount : amount},
+			function(data) {
+			console.log(data[0]['location']);
+		});
+}
 
 
 $(document).ready(function(){
-
 		var robotCount = 4
-
+		setInterval(updateInformation, 1000)
 		for (var i = 1; i <= robotCount; i++) {
-		var robot = $("#Robot_" + i)
-		robotsInactive.push(robot)
+			var robot = $("#Robot_" + i)
+			robotsInactive.push(robot)
 		}
-		beginQueue()
-		});
+});
 
 function activateRobot(robot, hloc, vloc) {
 	robotsActive.push(robot)
@@ -76,9 +77,11 @@ function beginQueue() {
 	if (robotsInactive.length > 0) {
 		// Find location to use
 		// Parse the string into integers
-		var hloc = parseInt(locs[0].substring(0, 2))
+		if (locs.length > 0) {
+			var hloc = parseInt(locs[0].substring(0, 2))
 			var vloc = parseInt(locs[0].substring(2, 4))
 			activateRobot(robotsInactive[0], hloc, vloc)
+		}
 	}
 }
 
