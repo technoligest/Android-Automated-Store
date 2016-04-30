@@ -195,6 +195,7 @@ function goBack(element, hloc, finished) {
 top: "160px"
 });
 
+
 }else{
 
 
@@ -213,8 +214,48 @@ top: "160px"
 
 }
 if (finished) {
+
+	goHome(element)
 	disableRobot(element)
 }
+}
+
+function goHome(element){
+
+	if(robotsInactive.length == 0){
+
+		var moveVertically = element.animate({
+			top: "10px"
+		});
+
+	}if(robotsInactive.length == 1){
+
+		var moveHorizontally = element.animate({
+		left: "110px"
+		});
+
+		var moveVertically = element.animate({
+		top: "10px"
+		});
+
+	}if(robotsInactive.length == 2){
+
+		var moveVertically = element.animate({
+		top: "75px"
+		});
+
+	}if(robotsInactive.length == 3){
+
+		var moveHorizontally = element.animate({
+		left: "110px"
+		});
+
+		var moveVertically = element.animate({
+		top: "75px"
+		});
+
+	}
+
 }
 
 function rotateReset(element){
