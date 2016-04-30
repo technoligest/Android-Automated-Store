@@ -5,7 +5,7 @@ require "../db/dbconn.php";
 if(isset($_GET['type']) && $_GET['pass'] == "wordpass") {
 	
 	/* "im trying atlest" */
-	$id = $mysql_escape_string($_GET['id']);
+	$id = mysql_escape_string($_GET['id']);
 	$type = mysql_escape_string($_GET['type']);
 	$name = mysql_escape_string($_GET['name']);
 	$back = mysql_escape_string($_GET['back']);
@@ -130,5 +130,5 @@ class Jam {
 
 }
 /* Stoping Double Sending */
-header("HTTP/1.1 200 OK");
+header("Content-Type: application/json");
 
