@@ -11,6 +11,7 @@ var locs = []
 var robotsInactive = []; // Robots ready to work
 var robotsActive = []; // Robots already working
 var itemIndex = 0
+speed = 800
 
 
 /* Get loctaion, id and amount */
@@ -109,7 +110,7 @@ function setStartPos(element, finished) {
 
 		var moveVertically = element.animate({
 top: "160px"
-});
+},speed);
 if (finished) {
 	disableRobot(element)
 }
@@ -131,10 +132,10 @@ function moveToAisle(element, hloc, vloc) {
 
 		var moveHorizontally = element.animate({
 left: moveHorz + "px"
-});
+},speed);
 var moveVertically = element.animate({
 top: "+=" + moveVert + "px"
-});
+},speed);
 }
 
 function rotateRobot(element, hloc, vloc){
@@ -189,25 +190,24 @@ function goBack(element, hloc, finished) {
 		if(hloc == 0){
 
 			var moveVertically = element.animate({
-top: "160px"
-});
+			top: "160px"
+			},speed);
+
+		}else{
 
 
-}else{
+			var moveVertically = element.animate({
+			top: "490px"
+			},speed);
+
+			var moveHorizontally = element.animate({
+			left: "30px"
+			},speed);
 
 
-	var moveVertically = element.animate({
-top: "490px"
-});
-
-var moveHorizontally = element.animate({
-left: "30px"
-});
-
-
-var moveVertically2 = element.animate({
-top: "160px"
-});
+			var moveVertically2 = element.animate({
+			top: "160px"
+		},speed);
 
 }
 if (finished) {
@@ -223,33 +223,33 @@ function goHome(element){
 
 		var moveVertically = element.animate({
 			top: "10px"
-		});
+		},speed);
 
 	}if(elId == 'Robot_2'){
 
 		var moveHorizontally = element.animate({
 		left: "110px"
-		});
+	},speed);
 
 		var moveVertically = element.animate({
 		top: "10px"
-		});
+	},speed);
 
 	}if(elId == 'Robot_3'){
 
 		var moveVertically = element.animate({
 		top: "75px"
-		});
+	},speed);
 
 	}if(elId == 'Robot_4'){
 
 		var moveHorizontally = element.animate({
 		left: "110px"
-		});
+	},speed);
 
 		var moveVertically = element.animate({
 		top: "75px"
-		});
+	},speed);
 	}
 
 }
