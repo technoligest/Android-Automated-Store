@@ -30,10 +30,3 @@ foreach($data as $key => $value)
 	$front = $front - 1;
 	update("stock",$id,$back,$front);
 }
-/*
-foreach($a as $data) {
-	echo $data[$a];
-	$a++;
-
-}
- */
