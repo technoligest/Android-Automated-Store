@@ -11,6 +11,7 @@ var locs = []
 var robotsInactive = []; // Robots ready to work
 var robotsActive = []; // Robots already working
 var itemIndex = 0
+var cycle = 0
 
 
 /* Get loctaion, id and amount */
@@ -222,13 +223,13 @@ if (finished) {
 
 function goHome(element){
 
-	if(robotsInactive.length == 3){
+	if(cycle == 0){
 
 		var moveVertically = element.animate({
 			top: "10px"
 		});
-
-	}if(robotsInactive.length == 2){
+		cycle ++
+	}if(cycle == 1){
 
 		var moveHorizontally = element.animate({
 		left: "110px"
@@ -237,14 +238,14 @@ function goHome(element){
 		var moveVertically = element.animate({
 		top: "10px"
 		});
-
-	}if(robotsInactive.length == 1){
+		cycle ++
+	}if(cycle == 2){
 
 		var moveVertically = element.animate({
 		top: "75px"
 		});
-
-	}if(robotsInactive.length == 0){
+		cycle ++
+	}cycle == 3){
 
 		var moveHorizontally = element.animate({
 		left: "110px"
@@ -253,7 +254,7 @@ function goHome(element){
 		var moveVertically = element.animate({
 		top: "75px"
 		});
-
+		cycle = 0
 	}
 
 }
