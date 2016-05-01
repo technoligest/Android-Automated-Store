@@ -24,29 +24,21 @@ import java.util.List;
 public class MainActivity extends Activity {
 
     ListView listView;
+    Context context;
+    public static int [] images={R.drawable.image,R.drawable.image,R.drawable.image,R.drawable.image,R.drawable.image,R.drawable.image};
+    public static String [] items={ "Apples", "Bananas", "Cereal", "Bread", "Oreos", "Red Bull" };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        listView = (ListView) findViewById(R.id.BananaList);
 
+        context=this;
 
-        String[] values = {"Apples", "Bananas", "Cereal", "Bread", "Oreos", "Red Bull"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, values);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView=(ListView) findViewById(R.id.BananaList);
+        listView.setAdapter(new ListAdapter(this, items,images));
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int itemPosition = position;
-                String itemValue = (String) listView.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(), "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG).show();
-                startActivity(new Intent(MainActivity.this, bananas.class));
-            }
-
-        });
     }
 
 
