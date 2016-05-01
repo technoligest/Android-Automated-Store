@@ -11,7 +11,6 @@ var locs = []
 var robotsInactive = []; // Robots ready to work
 var robotsActive = []; // Robots already working
 var itemIndex = 0
-speed = 800
 
 
 /* Get loctaion, id and amount */
@@ -54,12 +53,13 @@ $(document).ready(function(){
 });
 
 function activateRobot(robot, hloc, vloc) {
+	console.log("Robot Activated")
 	robotsActive.push(robot)
 		var index = robotsInactive.indexOf(robot)
 		if (index > -1) {
 			robotsInactive.splice(index, 1)
 		}
-	setActive(robot)
+		setActive(robot)
 		setStartPos(robot, false)
 		moveToAisle(robot, hloc, vloc)
 		rotateRobot(robot, hloc, vloc)
@@ -81,13 +81,14 @@ function disableRobot(robot) {
 }
 
 function beginQueue() {
-
+	console.log("Queue Started")
 	if (robotsInactive.length > 0) {
 		// Find location to use
 		// Parse the string into integers
 		if (locs.length > 0) {
 			var hloc = parseInt(locs[0].substring(0, 2))
 			var vloc = parseInt(locs[0].substring(2, 4))
+			console.log("Robot will be activated")
 			activateRobot(robotsInactive[0], hloc, vloc)
 		}
 	}
@@ -101,7 +102,7 @@ function setActive(element) {
 }
 
 function setStartPos(element, finished) {
-
+console.log("Robot move to start pos")
 	var horz = element.position().left
 		var vert = element.position().top
 
@@ -110,7 +111,7 @@ function setStartPos(element, finished) {
 
 		var moveVertically = element.animate({
 top: "160px"
-},speed);
+});
 if (finished) {
 	disableRobot(element)
 }
@@ -132,10 +133,10 @@ function moveToAisle(element, hloc, vloc) {
 
 		var moveHorizontally = element.animate({
 left: moveHorz + "px"
-},speed);
+});
 var moveVertically = element.animate({
 top: "+=" + moveVert + "px"
-},speed);
+});
 }
 
 function rotateRobot(element, hloc, vloc){
@@ -191,23 +192,23 @@ function goBack(element, hloc, finished) {
 
 			var moveVertically = element.animate({
 			top: "160px"
-			},speed);
+			});
 
 		}else{
 
 
 			var moveVertically = element.animate({
 			top: "490px"
-			},speed);
+			});
 
 			var moveHorizontally = element.animate({
 			left: "30px"
-			},speed);
+			});
 
 
 			var moveVertically2 = element.animate({
 			top: "160px"
-		},speed);
+		});
 
 }
 if (finished) {
@@ -223,33 +224,33 @@ function goHome(element){
 
 		var moveVertically = element.animate({
 			top: "10px"
-		},speed);
+		});
 
 	}if(elId == 'Robot_2'){
 
 		var moveHorizontally = element.animate({
 		left: "110px"
-	},speed);
+	});
 
 		var moveVertically = element.animate({
 		top: "10px"
-	},speed);
+	});
 
 	}if(elId == 'Robot_3'){
 
 		var moveVertically = element.animate({
 		top: "75px"
-	},speed);
+	});
 
 	}if(elId == 'Robot_4'){
 
 		var moveHorizontally = element.animate({
 		left: "110px"
-	},speed);
+	});
 
 		var moveVertically = element.animate({
 		top: "75px"
-	},speed);
+	});
 	}
 
 }
