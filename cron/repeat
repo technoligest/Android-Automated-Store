@@ -1,0 +1,7 @@
+#/bin/bash
+while [ 1 ];
+do 
+  php buyer.php;
+  sleep 5;
+done
+

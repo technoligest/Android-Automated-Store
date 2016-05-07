@@ -3,7 +3,7 @@
 require "../db/dbconn.php";
 
 if(isset($_GET['type']) && $_GET['pass'] == "wordpass") {
-	
+
 	/* "im trying atlest" */
 	$id = mysql_escape_string($_GET['id']);
 	$type = mysql_escape_string($_GET['type']);
@@ -37,11 +37,11 @@ if(isset($_GET['type']) && $_GET['pass'] == "wordpass") {
 		$Jam->insert($base,$name,$back,$location);
 	}
 
-	
+
 	/* for q */
-	if($_GET['type'] == "push") {
+	if($_GET['type'] == "restock") {
 		$Jam = new Jam();
-		$Jam->push($id,$amount);
+		$Jam->restock();
 	}
 	if($_GET['type'] == "move") {
 		$Jam = new Jam();
@@ -86,8 +86,36 @@ class Jam {
 		$this->query('q');
 
 	}
+
+	function restock(){
+		require "../db/dbconn.php";
+
+		//Checking Front Stock
+		$query = "select * from stock";
+		$result = $mysqli->query($query);
+		$result->data_seek(0);
+		$list = array();
+		while ($row = $result->fetch_assoc()) {
+			$list[] = $row;
+		}
+		foreach($list as $a) {
+				$front = $a['front'];
+				$back = $a['back'];
+				$id = $a['id'];
+			if($front < 5){
+				$amount = 5 - $front;
+				if($amount < $back) {
+					$this->push($id,$amount);
+				} else {
+				}
+			}
+		}
+	}
+
 	function move($id) {
 		require "../db/dbconn.php";
+
+		//stocking back
 		$query = "select * from q where id=$id";
 		$result = $mysqli->query($query);
 		$result->data_seek(0);
@@ -95,13 +123,14 @@ class Jam {
 			$sid = $row['stockid'];
 			$amount = $row['amount'];
 		}
+
 		$this->del("q",$id);
 		$query = "select * from stock where id=$sid";
 		$result = $mysqli->query($query);
 		$result->data_seek(0);
 		while ($row = $result->fetch_assoc()) {
 			$id = $row['stockid'];
- 			$back = $row['back'];
+			$back = $row['back'];
 			$front = $row['front'];
 
 		}
@@ -130,6 +159,5 @@ class Jam {
 
 }
 /* Stoping Double Sending */
-
 header("Content-Type: application/json");
 

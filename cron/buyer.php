@@ -27,6 +27,10 @@ foreach($data as $key => $value)
 		$back = $value['back'];
 		break;
 	}
-	$front = $front - 1;
-	update("stock",$id,$back,$front);
+	if(rand(1, 2) == 1){
+		if ($front > 0){
+			$front = $front - 1;
+			update("stock",$id,$back,$front);
+		}
+	}
 }
